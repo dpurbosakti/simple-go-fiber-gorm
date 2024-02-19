@@ -13,12 +13,12 @@ import (
 
 func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
-	db.DatabaseInit()
-	db.RunMigration()
 
+	dataBase := db.OpenDBConnection()
 	app := fiber.New()
 
-	route.RouteInit(app)
+	route.RouteInit(app, dataBase)
+	db.RunMigration(dataBase)
 
 	err := app.Listen(":3000")
 	if err != nil {

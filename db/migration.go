@@ -1,12 +1,13 @@
 package db
 
 import (
-	"github.com/dpurbosakti/fiber-gorm/models/user"
+	"github.com/dpurbosakti/fiber-gorm/app/models"
 	"github.com/rs/zerolog/log"
+	"gorm.io/gorm"
 )
 
-func RunMigration() {
-	err := DB.AutoMigrate(user.User{})
+func RunMigration(db *gorm.DB) {
+	err := db.AutoMigrate(models.User{})
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to migrate")
 	}

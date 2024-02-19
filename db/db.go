@@ -6,9 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+// type Queries struct {
+// 	*queries.UserQueries // load queries from User model
+// }
 
-func DatabaseInit() {
+// var (
+// 	db  *gorm.DB
+// 	err error
+// )
+
+func OpenDBConnection() *gorm.DB {
 	// db logger
 	// dbLogger := logger.New(
 	// 	log.New(os.Stdout, "\r\n", log.LstdFlags),
@@ -39,5 +46,5 @@ func DatabaseInit() {
 	}
 
 	zl.Info().Msg("connected to the database successfully")
-	DB = db
+	return db
 }
