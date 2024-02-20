@@ -11,6 +11,7 @@ type UserQuerier interface {
 	CreateUser(u *models.User) error
 	GetAllUser() ([]models.User, error)
 	GetUserByID(ID string) (models.User, error)
+	UpdateUser(u *models.User) error
 }
 
 func (q *Queries) CreateUser(u *models.User) error {
@@ -37,4 +38,12 @@ func (q *Queries) GetUserByID(ID string) (models.User, error) {
 		return user, fmt.Errorf("failed to get all users data: %w", result.Error)
 	}
 	return user, nil
+}
+
+func (q *Queries) UpdateUser(u *models.User) error {
+	if result := q.Debug().Save(u); result.Error != nil {
+		return fmt.Errorf("failed to update user data: %w", result.Error)
+	}
+
+	return nil
 }

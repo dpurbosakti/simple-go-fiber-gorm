@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dpurbosakti/fiber-gorm/db"
-	"github.com/dpurbosakti/fiber-gorm/route"
+	"github.com/dpurbosakti/fiber-gorm/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -17,7 +17,7 @@ func main() {
 	dataBase := db.OpenDBConnection()
 	app := fiber.New()
 
-	route.RouteInit(app, dataBase)
+	routes.RouteInit(app, dataBase)
 	db.RunMigration(dataBase)
 
 	err := app.Listen(":3000")
