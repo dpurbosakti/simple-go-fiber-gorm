@@ -127,3 +127,32 @@ func (u *Handler) UpdateUser(c *fiber.Ctx) error {
 		"message": "updated",
 	})
 }
+
+func (u *Handler) DeleteUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+	_, err := u.query.GetUserByID(id)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			log.Err(err).Msg("user not found")
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"message": "failed to get data user",
+				"error":   err.Error,
+			})
+		}
+		log.Err(err).Msg(fmt.Sprintf("failed to get data user with id %s", id))
+		return err
+	}
+
+	err = u.query.DeleteUser(id)
+	if err != nil {
+		log.Err(err).Msg("failed to delete user")
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "failed to update user",
+			"error":   err,
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "deleted",
+	})
+}

@@ -19,4 +19,5 @@ func RouteInit(app *fiber.App, db *gorm.DB) {
 	userGroup.Get("/:id", handler.GetUserByID).Name("get_user_by_id")
 	userGroup.Post("", handler.CreateUser).Name("create_user")
 	userGroup.Put("/:id", handler.UpdateUser).Name("update_user")
+	userGroup.Delete("/:id", handler.DeleteUser).Name("delete_user")
 }

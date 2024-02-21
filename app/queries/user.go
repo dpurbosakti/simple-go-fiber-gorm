@@ -11,6 +11,7 @@ type UserQuerier interface {
 	CreateUser(u *models.User) error
 	GetAllUser() ([]models.User, error)
 	GetUserByID(ID string) (models.User, error)
+	DeleteUser(ID string) error
 	UpdateUser(u *models.User) error
 }
 
@@ -43,6 +44,15 @@ func (q *Queries) GetUserByID(ID string) (models.User, error) {
 func (q *Queries) UpdateUser(u *models.User) error {
 	if result := q.Debug().Save(u); result.Error != nil {
 		return fmt.Errorf("failed to update user data: %w", result.Error)
+	}
+
+	return nil
+}
+
+func (q *Queries) DeleteUser(ID string) error {
+	var user models.User
+	if result := q.Debug().Where("id = ?", ID).Delete(&user, ID); result.Error != nil {
+		return fmt.Errorf("failed to delete user: %w", result.Error)
 	}
 
 	return nil
